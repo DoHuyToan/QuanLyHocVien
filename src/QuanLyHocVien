@@ -92,13 +92,15 @@ select Address, count(Address) from address join Student S on Address.aID = S.aI
 # tính điểm trung bình của các khóa học
 select name1, points from Course join Point P on Course.id = P.id;
 select name1, avg(Point.points) as DiemTB from Point join Course C on C.id = Point.id group by name1 having name1='botcam';
-select name1, avg(Point.points) as DiemTB from Point join Course C on C.id = Point.id group by name1 order by avg(points) desc ;
+select name1, avg(Point.points) as DiemTB
+from Point join Course C on C.id = Point.id group by name1 order by avg(points) desc ;
 
 
-# tìm khóa học có điểm trung bình cao nhất
+# tìm khóa học có điểm trung bình cao nhất, phải thêm điều kiện having
 select name1, avg(Point.points) as DiemTB
 from Point join Course C on C.id = Point.id
-group by name1 >= all (select avg(Point.points) as DiemTB
+group by name1 having DiemTB
+             >= all (select avg(Point.points) as DiemTB
                        from Point join Course C on C.id = Point.id
                        group by name1);
 
