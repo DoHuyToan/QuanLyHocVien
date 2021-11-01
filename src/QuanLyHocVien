@@ -1,0 +1,104 @@
+create database QuanLyHocVien;
+use QuanLyHocVien;
+create table Address(
+                        aID int auto_increment primary key,
+                        Address varchar(50) not null
+);
+create table Classes(
+                        cID int auto_increment primary key,
+                        cName varchar(20) not null,
+                        cLanguage varchar(20) not null,
+                        cDescription varchar(50) not null
+);
+create table Student(
+                        sID int auto_increment primary key,
+                        sFullNmae varchar(20),
+                        aID int,
+                        foreign key (aID) references Address (aID),
+                        cID int,
+                        foreign key (cID) references Classes (cID),
+                        sPhone varchar(15) unique
+);
+create table Course (
+                        id int auto_increment primary key,
+                        name1 varchar(20),
+                        descriptions varchar(50)
+);
+create table Point (
+                       pID int auto_increment primary key,
+                       id int,
+                       foreign key (id) references Course (id),
+                       sID int,
+                       foreign key (sID) references Student (sID),
+                       points double
+);
+select * from quanlyhocvien.Address;
+insert into quanlyhocvien.Address (Address) value ('Trum hai phong');
+insert into quanlyhocvien.Address (Address) value ('AToan trum tay ho');
+insert into quanlyhocvien.Address (Address) value ('TieuCuong trum ThaiNguyen');
+insert into quanlyhocvien.Address (Address) value ('beeg trum lam bam');
+insert into quanlyhocvien.Address (Address) value ('Trum hn');
+select * from quanlyhocvien.classes;
+insert into quanlyhocvien.classes (cName,cLanguage,cDescription) value ('aToan','viet','hoc viet');
+insert into quanlyhocvien.classes (cName,cLanguage,cDescription) value ('aThao','cho','hoc sua');
+insert into quanlyhocvien.classes (cName,cLanguage,cDescription) value ('tCuong','ga','hoc gay');
+insert into quanlyhocvien.classes (cName,cLanguage,cDescription) value ('Long','lon','hocj zen');
+insert into quanlyhocvien.classes (cName,cLanguage,cDescription) value ('KA','soi','hoc hu');
+select * from quanlyhocvien.student;
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900008');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NATuan',1,2,'1900009');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NtCuong',3,3,'1900007');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',4,4,'1900006');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',5,5,'1900005');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900004');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900003');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900002');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900001');
+insert into quanlyhocvien.student (sFullNmae,aID,cID,sPhone) value ('NVToan',2,1,'1900000');
+select * from quanlyhocvien.course;
+insert into quanlyhocvien.course (name1,descriptions) value ('botcam','tocdocao');
+insert into quanlyhocvien.course (name1,descriptions) value ('3thang','so cap');
+insert into quanlyhocvien.course (name1,descriptions) value ('6 thangs','socap1');
+insert into quanlyhocvien.course (name1,descriptions) value ('1 nam','trung cap');
+insert into quanlyhocvien.course (name1,descriptions) value ('3 nam','cap cap');
+
+select *from quanlyhocvien.point;
+insert into quanlyhocvien.point (id,sID,points) value (1,1,6.6);
+insert into quanlyhocvien.point (id,sID,points) value (1,2,6.0);
+insert into quanlyhocvien.point (id,sID,points) value (1,4,6.8);
+insert into quanlyhocvien.point (id,sID,points) value (1,5,9.6);
+insert into quanlyhocvien.point (id,sID,points) value (2,1,7.6);
+insert into quanlyhocvien.point (id,sID,points) value (1,2,6.4);
+insert into quanlyhocvien.point (id,sID,points) value (1,4,6.7);
+insert into quanlyhocvien.point (id,sID,points) value (1,5,7.6);
+insert into quanlyhocvien.point (id,sID,points) value (1,1,8.1);
+insert into quanlyhocvien.point (id,sID,points) value (1,1,6.3);
+insert into quanlyhocvien.point (id,sID,points) value (1,1,6.2);
+insert into quanlyhocvien.point (id,sID,points) value (1,1,7.5);
+insert into quanlyhocvien.point (id,sID,points) value (1,1,6.6);
+insert into quanlyhocvien.point (id,sID,points) value (5,5,8.0);
+insert into quanlyhocvien.point (id,sID,points) value (5,4,5.5);
+
+# thống kê số lượng học viên các lớp
+select cName, count(cName) from Classes join Student S on Classes.cID = S.cID group by cName;
+
+# thống kê số lượng học viên lớp C0821H1
+select cName, count(cName) from Classes join Student S on Classes.cID = S.cID group by cName having cName='C0821H1';
+
+# thống kê số lượng học viên theo tỉnh
+select sFullNmae, Address from student join Address A on A.aID = Student.aID;
+select Address, count(Address) from address join Student S on Address.aID = S.aID group by Address;
+
+# tính điểm trung bình của các khóa học
+select name1, points from Course join Point P on Course.id = P.id;
+select name1, avg(Point.points) as DiemTB from Point join Course C on C.id = Point.id group by name1 having name1='botcam';
+select name1, avg(Point.points) as DiemTB from Point join Course C on C.id = Point.id group by name1 order by avg(points) desc ;
+
+
+# tìm khóa học có điểm trung bình cao nhất
+select name1, avg(Point.points) as DiemTB
+from Point join Course C on C.id = Point.id
+group by name1 >= all (select avg(Point.points) as DiemTB
+                       from Point join Course C on C.id = Point.id
+                       group by name1);
+
