@@ -104,7 +104,7 @@ group by name1 having DiemTB
                        from Point join Course C on C.id = Point.id
                        group by name1);
 
-# hoặc sắp xếp theo thứ tự giảm dần rồi lấy ra hàng đầu tiên (cách này gọn hơn)
+# hoặc sắp xếp theo thứ tự giảm dần rồi lấy ra hàng đầu tiên (lưu ý trường hợp 2 khóa học có cùng DTB)
 select name1, avg(Point.points) as DiemTB
 from Point join Course C on C.id = Point.id group by name1 order by avg(points) desc limit 1;
 
