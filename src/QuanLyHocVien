@@ -108,3 +108,23 @@ group by name1 having DiemTB
 select name1, avg(Point.points) as DiemTB
 from Point join Course C on C.id = Point.id group by name1 order by avg(points) desc limit 1;
 
+select s.sFullNmae as `Tên học viên có điểm cao nhất`, p.sID,  max(p.points) as `Điểm`
+from point p join Student S on S.sID = p.sID group by p.points;
+
+# tìm học viên có điểm cao nhất
+select s.sFullNmae as `Tên học viên có điểm cao nhất`, max(p.points) as `Điểm`
+from point p join Student S on S.sID = p.sID group by p.points, s.sFullNmae
+having max(points) = all (select max(points) from point);
+
+# tìm học viên có điểm cao thứ 2
+
+SELECT s.sFullNmae as `Tên học viên có điểm cao thứ 2`, points FROM point p join Student S on S.sID = p.sID
+WHERE points= (SELECT (Point.points)
+                       FROM point ORDER BY points desc LIMIT 3,1); # 3 là số thứ tự cần tìm + 1
+
+
+# tìm học viên có điểm cao thứ 3
+
+
+
+
