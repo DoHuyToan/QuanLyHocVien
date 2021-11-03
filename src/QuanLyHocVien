@@ -148,6 +148,8 @@ from student join diemCaoThuHai
 join point p on Student.sID = p.sID
 where points = `Điểm cao thứ 2`;
 
+select * from cacHocVienCoDiemCaoThuHai;
+
 # đếm xem có bao nhiêu học viên
 select count(sFullNmae)as `Số lượng học viên có điểm đứng thứ 2`,
        `Điểm cao thứ 2` as `Điểm cao thứ 2`
